@@ -4,7 +4,58 @@
     </head>
     <body>
         <script>
-            // code
+            function computerPlay(){
+                let computerChoice = "rock";
+                const randomNum = Math.random() * 100;
+                if (randomNum < 66) {
+                    computerChoice = "paper";
+                }
+                if (randomNum < 33) {
+                    computerChoice = "scissors";
+                }
+                return computerChoice;
+            }
+            function playRound(playerSelection, computerSelection){
+                let winner = "Tie";
+                let winningMove = "Go again.";
+                playerSelection = playerSelection.toLowerCase();
+                switch(playerSelection){
+                    case "rock":
+                    if (computerSelection === "paper"){
+                        winner = "Computer";
+                        winningMove = "Paper";
+                    }
+                    if (computerSelection === "scissors"){
+                        winner = "Player";
+                        winningMove = "Rock";
+                    }
+                    break;
+                    case "paper":
+                    if (computerSelection === "scissors"){
+                        winner = "Computer";
+                        winningMove = "Scissors";
+                    }
+                    if (computerSelection === "rock"){
+                        winner = "Player";
+                        winningMove = "Paper";
+                    }
+                    break;
+                    case "scissors":
+                    if (computerSelection === "rock"){
+                        winner = "Computer";
+                        winningMove = "Rock";
+                    }
+                    if (computerSelection === "paper"){
+                        winner = "Player";
+                        winningMove = "Scissors";
+                    }
+                    break;
+                }
+                return [winner, winningMove];
+            }
+            const playerSelection = "rock";
+            const computerSelection = computerPlay();
+            console.log(playRound(playerSelection, computerSelection));
         </script>
     </body>
 </html>
