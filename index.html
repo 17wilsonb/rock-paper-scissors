@@ -5,53 +5,35 @@
     <body>
         <script>
             function game(){
-                // Initial points 0 for both computer and player:
+                // Default points and tied position:
                 let computerPoints = 0;
                 let playerPoints = 0;
-                let gameWinner = "tied";
+                let gameWinner = "Tied";
+                // Determine computer's move:
                 function computerPlay(){
-                    // Computer choice decided as a 1/3 choice:
                     let computerChoice = "rock";
                     const randomNum = Math.random();
-                    if (randomNum < 0.67) {
-                        computerChoice = "paper";
-                    }
-                    if (randomNum < 0.34) {
-                        computerChoice = "scissors";
-                    }
+                    if (randomNum < 0.67)  computerChoice = "paper";
+                    if (randomNum < 0.34)  computerChoice = "scissors";
                     return computerChoice;
                 }
                 function playRound(playerSelection, computerSelection){
                     // Default values:
                     let winner = "Tie";
                     let winningMove, losingMove, playerStatus;
-                    // Convert player input to lowercase:
-                    playerSelection = playerSelection.toLowerCase();
                     // Decide winner of round:
                     switch(playerSelection){
                         case "rock":
-                        if (computerSelection === "paper"){
-                            winner = "Computer";
-                        }
-                        if (computerSelection === "scissors"){
-                            winner = "Player";
-                        }
+                        if (computerSelection === "paper") winner = "Computer";
+                        if (computerSelection === "scissors") winner = "Player";
                         break;
                         case "paper":
-                        if (computerSelection === "scissors"){
-                            winner = "Computer";
-                        }
-                        if (computerSelection === "rock"){
-                            winner = "Player";
-                        }
+                        if (computerSelection === "scissors") winner = "Computer";
+                        if (computerSelection === "rock") winner = "Player";
                         break;
                         case "scissors":
-                        if (computerSelection === "rock"){
-                            winner = "Computer";
-                        }
-                        if (computerSelection === "paper"){
-                            winner = "Player";
-                        }
+                        if (computerSelection === "rock") winner = "Computer";
+                        if (computerSelection === "paper") winner = "Player";
                         break;
                     }
                     // Update player and round data:
@@ -59,13 +41,13 @@
                         computerPoints++;
                         winningMove = computerSelection;
                         losingMove = playerSelection;
-                        playerStatus = "lost";
+                        playerStatus = "Lost";
                     }
                     if (winner === "Player"){
                         playerPoints++;
                         winningMove = playerSelection;
                         losingMove = computerSelection;
-                        playerStatus = "won";
+                        playerStatus = "Won";
                     }
                     // Return winning statement:
                     if (winner === "Tie"){
@@ -75,23 +57,16 @@
                     }
                 }
                 // Get input one time from player:
-                const playerSelection = window.prompt("Please enter rock, paper, or scisssors: ");
+                const playerSelection = window.prompt("Please enter rock, paper, or scisssors: ").toLowerCase();
                 const numberOfPlays = window.prompt("How many times would you like this simulation to run?");
                 // Run simulation over a loop:
                 for (let i = 0; i < numberOfPlays; i++){
-                    // Get input from computer:
                     const computerSelection = computerPlay();
-                    // Run simulation:
                     console.log(playRound(playerSelection, computerSelection));
                 }
                 // Determine game winner:
-                if(computerPoints > playerPoints){
-                    gameWinner = "Computer";
-                }
-                if(playerPoints > computerPoints){
-                    gameWinner = "Player";
-                } 
-                // Broadcast winner of overall game:
+                if(computerPoints > playerPoints) gameWinner = "Computer";
+                if(playerPoints > computerPoints) gameWinner = "Player";
                 console.log(`The overall winner is ${gameWinner}.`);
             }
             game();
