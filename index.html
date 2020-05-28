@@ -4,58 +4,97 @@
     </head>
     <body>
         <script>
-            function computerPlay(){
-                let computerChoice = "rock";
-                const randomNum = Math.random() * 100;
-                if (randomNum < 66) {
-                    computerChoice = "paper";
+            function game(){
+                // Initial points 0 for both computer and player:
+                let computerPoints = 0;
+                let playerPoints = 0;
+                let gameWinner = "tied";
+                function computerPlay(){
+                    // Computer choice decided as a 1/3 choice:
+                    let computerChoice = "rock";
+                    const randomNum = Math.random();
+                    if (randomNum < 0.67) {
+                        computerChoice = "paper";
+                    }
+                    if (randomNum < 0.34) {
+                        computerChoice = "scissors";
+                    }
+                    return computerChoice;
                 }
-                if (randomNum < 33) {
-                    computerChoice = "scissors";
+                function playRound(playerSelection, computerSelection){
+                    // Default values:
+                    let winner = "Tie";
+                    let winningMove, losingMove, playerStatus;
+                    // Convert player input to lowercase:
+                    playerSelection = playerSelection.toLowerCase();
+                    // Decide winner of round:
+                    switch(playerSelection){
+                        case "rock":
+                        if (computerSelection === "paper"){
+                            winner = "Computer";
+                        }
+                        if (computerSelection === "scissors"){
+                            winner = "Player";
+                        }
+                        break;
+                        case "paper":
+                        if (computerSelection === "scissors"){
+                            winner = "Computer";
+                        }
+                        if (computerSelection === "rock"){
+                            winner = "Player";
+                        }
+                        break;
+                        case "scissors":
+                        if (computerSelection === "rock"){
+                            winner = "Computer";
+                        }
+                        if (computerSelection === "paper"){
+                            winner = "Player";
+                        }
+                        break;
+                    }
+                    // Update player and round data:
+                    if (winner === "Computer"){
+                        computerPoints++;
+                        winningMove = computerSelection;
+                        losingMove = playerSelection;
+                        playerStatus = "lost";
+                    }
+                    if (winner === "Player"){
+                        playerPoints++;
+                        winningMove = playerSelection;
+                        losingMove = computerSelection;
+                        playerStatus = "won";
+                    }
+                    // Return winning statement:
+                    if (winner === "Tie"){
+                        return "You tied.";
+                    } else {
+                        return `You ${playerStatus}! ${winningMove} beats ${losingMove}.`;
+                    }
                 }
-                return computerChoice;
+                // Get input one time from player:
+                const playerSelection = window.prompt("Please enter rock, paper, or scisssors: ");
+                const numberOfPlays = window.prompt("How many times would you like this simulation to run?");
+                // Run simulation over a loop:
+                for (let i = 0; i < numberOfPlays; i++){
+                    // Get input from computer:
+                    const computerSelection = computerPlay();
+                    // Run simulation:
+                    console.log(playRound(playerSelection, computerSelection));
+                }
+                // Determine game winner:
+                if(computerPoints > playerPoints){
+                    gameWinner = "Computer";
+                }
+                if(playerPoints > computerPoints){
+                    gameWinner = "Player";
+                } 
+                // Broadcast winner of overall game:
+                console.log(`The overall winner is ${gameWinner}.`);
             }
-            function playRound(playerSelection, computerSelection){
-                let winner = "Tie";
-                let winningMove = "Go again.";
-                playerSelection = playerSelection.toLowerCase();
-                switch(playerSelection){
-                    case "rock":
-                    if (computerSelection === "paper"){
-                        winner = "Computer";
-                        winningMove = "Paper";
-                    }
-                    if (computerSelection === "scissors"){
-                        winner = "Player";
-                        winningMove = "Rock";
-                    }
-                    break;
-                    case "paper":
-                    if (computerSelection === "scissors"){
-                        winner = "Computer";
-                        winningMove = "Scissors";
-                    }
-                    if (computerSelection === "rock"){
-                        winner = "Player";
-                        winningMove = "Paper";
-                    }
-                    break;
-                    case "scissors":
-                    if (computerSelection === "rock"){
-                        winner = "Computer";
-                        winningMove = "Rock";
-                    }
-                    if (computerSelection === "paper"){
-                        winner = "Player";
-                        winningMove = "Scissors";
-                    }
-                    break;
-                }
-                return [winner, winningMove];
-            }
-            const playerSelection = "rock";
-            const computerSelection = computerPlay();
-            console.log(playRound(playerSelection, computerSelection));
+            game();
         </script>
     </body>
 </html>
